@@ -48,13 +48,13 @@ public class Gmail extends Email {
         // If the inbox is empty, return null
         // Else, return the message of the latest mail present in the inbox
 
-       return inbox.size() == 0 ? null : inbox.get(0).message;
+        return inbox.size() == 0 ? null : inbox.get(inbox.size() - 1).message;
     }
 
     public String findOldestMessage(){
         // If the inbox is empty, return null
         // Else, return the message of the oldest mail present in the inbox
-        return inbox.size() == 0 ? null : inbox.get(inbox.size() - 1).message;
+        return inbox.size() == 0 ? null : inbox.get(0).message;
     }
 
     public int findMailsBetweenDates(Date start, Date end){
@@ -62,7 +62,7 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
         int size = 0;
         for(Mail mail: inbox) {
-            if ((mail.date.after(start) && mail.date.before(end)) || start.equals(mail.date) || end.equals(mail.message)) {
+            if ((mail.date.after(start) && mail.date.before(end)) || start.equals(mail.date) || end.equals(mail.date)) {
                 size++;
             }
         }
