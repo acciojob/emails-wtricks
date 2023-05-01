@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class Gmail extends Email {
 
     int inboxCapacity; //maximum number of mails inbox can store
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
+
+
 
     List<Mail> inbox = new ArrayList<>();
 
@@ -36,9 +39,10 @@ public class Gmail extends Email {
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
-        for(int i = inbox.size() - 1; i >= 0; i--) {
-            if (inbox.get(i).message.equals(message)) {
-                inbox.remove(i);
+        for(Mail mail : inbox) {
+            if (mail.getMessage().equals(message)) {
+                inbox.remove(mail);
+                trash.add(mail);
                 break;
             }
         }
@@ -48,13 +52,13 @@ public class Gmail extends Email {
         // If the inbox is empty, return null
         // Else, return the message of the latest mail present in the inbox
 
-        return inbox.size() == 0 ? null : inbox.get(inbox.size() - 1).message;
+        return inbox.size() == 0 ? null : inbox.get(inbox.size() - 1).getMessage();
     }
 
     public String findOldestMessage(){
         // If the inbox is empty, return null
         // Else, return the message of the oldest mail present in the inbox
-        return inbox.size() == 0 ? null : inbox.get(0).message;
+        return inbox.size() == 0 ? null : inbox.get(0).getMessage();
     }
 
     public int findMailsBetweenDates(Date start, Date end){
@@ -62,7 +66,7 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
         int size = 0;
         for(Mail mail: inbox) {
-            if ((mail.date.after(start) && mail.date.before(end)) || start.equals(mail.date) || end.equals(mail.date)) {
+            if ((mail.getDate().equals(start) || mail.getDate().after(start)) && (mail.getDate().equals(end) || mail.getDate().before(end))) {
                 size++;
             }
         }
